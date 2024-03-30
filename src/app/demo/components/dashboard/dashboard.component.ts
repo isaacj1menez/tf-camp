@@ -5,23 +5,13 @@ import { ProductService } from '../../service/product.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { getCampers } from 'src/app/services/tf-camp-api.service';
-import { formatMongoDate } from 'src/app/utils/common';
+import { formatMongoDate, formatRegister } from 'src/app/utils/common';
 import { GetCampersResponse } from 'src/app/interfaces/camper-responses.interface';
 
 @Component({
     templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements OnInit, OnDestroy {
-
-    items!: MenuItem[];
-
-    products!: Product[];
-
-    chartData: any;
-
-    chartOptions: any;
-
-    subscription!: Subscription;
+export class DashboardComponent {
 
     campers: GetCampersResponse;
 
@@ -41,18 +31,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     loading: boolean = false;
 
-    constructor(private productService: ProductService, public layoutService: LayoutService) {
+    register: String = '';
+
+    constructor(public layoutService: LayoutService) {
         
     }
 
     async ngOnInit() {
-        this.initChart();
-        this.productService.getProductsSmall().then(data => this.products = data);
-
-        this.items = [
-            { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-            { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-        ];
 
         this.campers = await getCampers();
 
@@ -71,73 +56,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.man_lastweek_count = this.getLastWeekRegistersBySex("M");
     }
 
-    initChart() {
-        const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
-        this.chartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-                {
-                    label: 'First Dataset',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    borderColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    tension: .4
-                },
-                {
-                    label: 'Second Dataset',
-                    data: [28, 48, 40, 19, 86, 27, 90],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--green-600'),
-                    borderColor: documentStyle.getPropertyValue('--green-600'),
-                    tension: .4
-                }
-            ]
-        };
-
-        this.chartOptions = {
-            plugins: {
-                legend: {
-                    labels: {
-                        color: textColor
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
-                },
-                y: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
-                }
-            }
-        };
-    }
-
-    ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
-    }
-
-    onRowSelect(event: any){
-        console.log(event);
+    getRegister = (registro: String) => {
+        return formatRegister(registro);
     }
 
     getTotalRegisters = () => {
@@ -180,13 +100,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     getLastWeekRegistersBySex = (sex: string) => {
 
-        const unaSemanaAtras = new Date();
-        unaSemanaAtras.setDate(unaSemanaAtras.getDate() - 7);
+        const unaSemanaEnMS = 7 * 24 * 60 * 60 * 1000; // Una semana en milisegundos
+        const fechaHoy = new Date(); // Fecha de hoy
+        const fechaHaceUnaSemana = new Date(fechaHoy.getTime() - unaSemanaEnMS);
 
         if (this.campers.data.length > 0) {
             const registrosUltimaSemana = this.campers.data.filter(registro => {
                 const fechaRegistro = formatMongoDate(registro.fecha_registro);
-                return fechaRegistro >= unaSemanaAtras;
+                return fechaRegistro >= fechaHaceUnaSemana && fechaRegistro <= fechaHoy;
             });
 
             const registrosUltimaSemanabySex = registrosUltimaSemana.filter(registro => registro.sexo === sex)

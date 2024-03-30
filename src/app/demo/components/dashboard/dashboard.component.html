@@ -11,16 +11,16 @@
                     <span class="text-blue-500 text-xxl material-symbols-outlined">group</span>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">{{lastweek_count}} {{ lastweek_count != 1 ? 'nuevos' : 'nuevo' }}
+            <span class="text-green-500 font-medium">{{lastweek_count}}+
             </span>
-            <span class="text-500">{{ lastweek_count != 1 ? 'registros' : 'registro' }} en esta semana</span>
+            <span class="text-500">en esta semana</span>
         </div>
     </div>
     <div class="col-12 lg:col-6 xl:col-4">
         <div class="card mb-0">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">Total de Mujeres Registradas</span>
+                    <span class="block text-500 font-medium mb-3">Mujeres Registradas</span>
                     <div class="text-900 font-medium text-xl">{{woman_count}}</div>
                 </div>
                 <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
@@ -36,7 +36,7 @@
         <div class="card mb-0">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">Total de Hombres Registrados</span>
+                    <span class="block text-500 font-medium mb-3">Hombres Registrados</span>
                     <div class="text-900 font-medium text-xl">{{man_count}}</div>
                 </div>
                 <div class="flex align-items-center justify-content-center bg-cyan-100 border-round"
@@ -84,8 +84,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-camper>
                     <tr>
-                        <td style="width: 35%; min-width: 7rem;">TF{{camper.registro.length === 1 ? '00':
-                            '0'}}{{camper.registro}}</td>
+                        <td style="width: 35%; min-width: 7rem;">TF{{this.getRegister(camper.registro)}}{{camper.registro}}</td>
                         <td style="width: 35%; min-width: 7rem;">{{camper.nombre}}</td>
                         <td style="width: 35%; min-width: 8rem;">{{camper.edad}}</td>
                         <td style="width: 35%; min-width: 8rem;">{{camper.telefono}}</td>
