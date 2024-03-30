@@ -1,0 +1,109 @@
+<div class="grid">
+    <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Total de Registros</span>
+                    <div class="text-900 font-medium text-xl">{{register_count}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <span class="text-blue-500 text-xxl material-symbols-outlined">group</span>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">{{lastweek_count}} {{ lastweek_count != 1 ? 'nuevos' : 'nuevo' }}
+            </span>
+            <span class="text-500">{{ lastweek_count != 1 ? 'registros' : 'registro' }} en esta semana</span>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Total de Mujeres Registradas</span>
+                    <div class="text-900 font-medium text-xl">{{woman_count}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <span class="text-orange-500 text-xxl material-symbols-outlined">woman</span>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">{{woman_lastweek_count}}+ </span>
+            <span class="text-500">en esta semana</span>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Total de Hombres Registrados</span>
+                    <div class="text-900 font-medium text-xl">{{man_count}}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <span class="text-cyan-500 text-xxl material-symbols-outlined">man</span>
+                </div>
+            </div>
+            <span class="text-green-500 font-medium">{{man_lastweek_count}}+ </span>
+            <span class="text-500">en esta semana</span>
+        </div>
+    </div>
+
+    <div class="col-12 xl:col-12">
+        <div class="card">
+            <h5>Registros</h5>
+            <p-table 
+                #campersTable
+                [value]="campers_table_data" 
+                [paginator]="true" 
+                [rows]="5" 
+                responsiveLayout="scroll" 
+                dataKey="registro"
+                [rowsPerPageOptions]="[5, 10, 25, 50]"
+                [loading]="loading"
+                [globalFilterFields]="['nombre', 'camper.nombre']">
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <button pButton label="Borrar" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(campersTable)"></button>
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="campersTable.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="registro">Registro <p-sortIcon field="registro"></p-sortIcon></th>
+                        <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+                        <th pSortableColumn="edad">Edad <p-sortIcon field="edad"></p-sortIcon></th>
+                        <th pSortableColumn="telefono">Teléfono <p-sortIcon field="telefono"></p-sortIcon></th>
+                        <th>Ver</th>
+                        <th>Abonar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-camper>
+                    <tr>
+                        <td style="width: 35%; min-width: 7rem;">TF{{camper.registro.length === 1 ? '00':
+                            '0'}}{{camper.registro}}</td>
+                        <td style="width: 35%; min-width: 7rem;">{{camper.nombre}}</td>
+                        <td style="width: 35%; min-width: 8rem;">{{camper.edad}}</td>
+                        <td style="width: 35%; min-width: 8rem;">{{camper.telefono}}</td>
+                        <td style="width: 15%;">
+                            <button pButton pRipple type="button" icon="pi pi-eye"
+                                class="text-blue-500 p-button p-component p-button-text p-button-icon-only" [routerLink]="['/uikit/input', camper.registro]"></button>
+                        </td>
+                        <td style="width: 15%;">
+                            <button pButton pRipple type="button" icon="pi pi-dollar"
+                                class="text-green-500 p-button p-component p-button-text p-button-icon-only"></button>
+                        </td>
+                        <td style="width: 15%;">
+                            <button pButton pRipple type="button" icon="pi pi-trash"
+                                class="text-red-500 p-button p-component p-button-text p-button-icon-only"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

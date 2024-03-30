@@ -1,0 +1,63 @@
+<div class="grid p-fluid">
+	<div class="col-12 md:col-12">
+		<div class="card">
+			<h5>Datos Generales</h5>
+			<div class="grid formgrid">
+				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
+					<span class="p-input-icon-right">
+						<input type="text" pInputText disabled  />
+						<i class="pi pi-search"></i>
+					</span>
+				</div>
+				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
+					<input type="text" pInputText placeholder="Disabled" [disabled]="true"/>
+				</div>
+				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
+					<input type="text" pInputText placeholder="Invalid" class="ng-dirty ng-invalid"/>
+				</div>
+			</div>
+
+			<h5>Icons</h5>
+			<div class="grid formgrid">
+				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
+					<span class="p-input-icon-left">
+						<i class="pi pi-user"></i>
+						<input type="text" pInputText placeholder="Username"/>
+					</span>
+				</div>
+				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
+					<span class="p-input-icon-right">
+						<input type="text" pInputText placeholder="Search"/>
+						<i class="pi pi-search"></i>
+					</span>
+				</div>
+				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
+					<span class="p-input-icon-left p-input-icon-right">
+						<i class="pi pi-user"></i>
+						<input type="text" pInputText placeholder="Search"/>
+						<i class="pi pi-search"></i>
+					</span>
+				</div>
+			</div>
+
+			<h5>Float Label</h5>
+			<span class="p-float-label">
+				<input id="float-input" type="text" pInputText>
+				<label for="float-input">Username</label>
+			</span>
+
+			<h5>Textarea</h5>
+			<textarea rows="5" cols="30" placeholder="Your Message" pInputTextarea></textarea>
+
+			<h5>Calendar</h5>
+			<p-calendar [showIcon]="true" inputId="icon"></p-calendar>
+
+			<h5>InputNumber</h5>
+			<p-inputNumber mode="decimal" [showButtons]="true" [min]="0" [max]="100">
+			</p-inputNumber>
+
+			<h5>Chips</h5>
+			<p-chips></p-chips>
+		</div>
+	</div>
+</div>
