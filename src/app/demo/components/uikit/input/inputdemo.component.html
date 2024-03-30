@@ -1,63 +1,77 @@
+<h3>{{nombre}} <span class="text-sm">TF{{this.getRegister(registro)}}{{registro}}</span></h3>
 <div class="grid p-fluid">
-	<div class="col-12 md:col-12">
+	<div class="col-12 md:col-6">
 		<div class="card">
 			<h5>Datos Generales</h5>
 			<div class="grid formgrid">
-				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
-					<span class="p-input-icon-right">
-						<input type="text" pInputText disabled  />
-						<i class="pi pi-search"></i>
-					</span>
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
+					<p style="font-weight: bold;">Fecha de Registro: <span style="font-weight: lighter;">{{fecha_registro}}</span></p>
 				</div>
-				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
-					<input type="text" pInputText placeholder="Disabled" [disabled]="true"/>
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
+					<p style="font-weight: bold;">Edad: <span style="font-weight: lighter;">{{edad}}</span></p>
 				</div>
-				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
-					<input type="text" pInputText placeholder="Invalid" class="ng-dirty ng-invalid"/>
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
+					<p style="font-weight: bold;">Teléfono: <span style="font-weight: lighter;">{{telefono}}</span></p>
+				</div>
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
+					<p style="font-weight: bold;">Sexo: <span style="font-weight: lighter;">{{sexo === 'F' ? 'Femenino'
+							: 'Masculino'}}</span></p>
+				</div>
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
+					<p style="font-weight: bold;">Iglesia: <span style="font-weight: lighter;">{{iglesia}}</span></p>
+				</div>
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
+					<p style="font-weight: bold;">Talla: <span style="font-weight: lighter;">{{talla}}</span></p>
 				</div>
 			</div>
-
-			<h5>Icons</h5>
+		</div>
+	</div>
+	<div class="col-12 md:col-6">
+		<div class="card">
+			<h5>Contacto de Emergencia</h5>
 			<div class="grid formgrid">
-				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
-					<span class="p-input-icon-left">
-						<i class="pi pi-user"></i>
-						<input type="text" pInputText placeholder="Username"/>
-					</span>
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
+					<p style="font-weight: bold;">Parentesco: <span style="font-weight: initial;">{{contacto}}</span>
+					</p>
 				</div>
-				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
-					<span class="p-input-icon-right">
-						<input type="text" pInputText placeholder="Search"/>
-						<i class="pi pi-search"></i>
-					</span>
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
+					<p style="font-weight: bold;">Nombre: <span style="font-weight: lighter;">{{nombre_contacto}}</span>
+					</p>
 				</div>
-				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
-					<span class="p-input-icon-left p-input-icon-right">
-						<i class="pi pi-user"></i>
-						<input type="text" pInputText placeholder="Search"/>
-						<i class="pi pi-search"></i>
-					</span>
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
+					<p style="font-weight: bold;">Teléfono: <span style="font-weight: lighter;">{{telefono_contacto
+							}}</span></p>
 				</div>
 			</div>
-
-			<h5>Float Label</h5>
-			<span class="p-float-label">
-				<input id="float-input" type="text" pInputText>
-				<label for="float-input">Username</label>
-			</span>
-
-			<h5>Textarea</h5>
-			<textarea rows="5" cols="30" placeholder="Your Message" pInputTextarea></textarea>
-
-			<h5>Calendar</h5>
-			<p-calendar [showIcon]="true" inputId="icon"></p-calendar>
-
-			<h5>InputNumber</h5>
-			<p-inputNumber mode="decimal" [showButtons]="true" [min]="0" [max]="100">
-			</p-inputNumber>
-
-			<h5>Chips</h5>
-			<p-chips></p-chips>
+		</div>
+	</div>
+	<div class="col-12 md:col-6">
+		<div class="card">
+			<h5>Datos Médicos</h5>
+			<div class="grid formgrid">
+				<div class="col-12 mb-2 lg:col-12 lg:mb-0s">
+					<p style="font-weight: bold;">Tipo de Sangre: <span
+							style="font-weight: initial;">{{tipo_sangre}}</span></p>
+				</div>
+				<div class="col-12 mb-2 lg:col-12 lg:mb-0s">
+					<p style="font-weight: bold;">Alergias:</p>
+					<p-chips class="mt-1" [ngModel]="alergias"></p-chips>
+				</div>
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
+					<p style="font-weight: bold;">Medicamentos:</p>
+					<p-chips class="mt-1" [ngModel]="medicamentos"></p-chips>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-12 md:col-6">
+		<div class="card">
+			<h5>Comentarios Adicionales</h5>
+			<div class="grid formgrid">
+				<div class="col-12 mb-2 lg:col-12 lg:mb-0s">
+					<p>{{comentarios}}</p>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
