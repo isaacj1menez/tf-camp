@@ -1,19 +1,24 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { Product } from '../../api/product';
-import { ProductService } from '../../service/product.service';
-import { Subscription } from 'rxjs';
-import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { getCampers } from 'src/app/services/tf-camp-api.service';
+import { Component } from '@angular/core';
+import { deleteCampers, getCampers } from 'src/app/services/tf-camp-api.service';
 import { formatMongoDate, formatRegister } from 'src/app/utils/common';
-import { GetCampersResponse } from 'src/app/interfaces/camper-responses.interface';
+import { Camper, GetCampersResponse } from 'src/app/interfaces/camper-responses.interface';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
+import { Table } from 'primeng/table';
+import axios, { AxiosResponse } from 'axios';
+import Swal from 'sweetalert2'
 
 @Component({
     templateUrl: './dashboard.component.html',
+    providers: [ConfirmationService, MessageService]
 })
 export class DashboardComponent {
 
+    baseUrl: string = 'http://localhost:2250/api/payments';
+
     campers: GetCampersResponse;
+    
+    camper: any = {};
 
     campers_table_data: any[];
 
@@ -33,12 +38,28 @@ export class DashboardComponent {
 
     register: String = '';
 
-    constructor(public layoutService: LayoutService) {
-        
-    }
+    visible: boolean = false;
+
+    cols: any[] = [];
+
+    camperDialog: boolean = false;
+
+    deleteCamperDialog: boolean = false;
+
+    deleteCampersDialog: boolean = false;
+
+    rowsPerPageOptions = [5, 10, 20];
+
+    selectedCampers: Camper[] = [];
+
+    show_error: boolean = false;
+
+    monto: String = '';
+    
+
+    constructor(private confirmationService: ConfirmationService, private router: Router) { }
 
     async ngOnInit() {
-
         this.campers = await getCampers();
 
         this.campers_table_data = this.campers.data;
@@ -54,6 +75,113 @@ export class DashboardComponent {
         this.woman_lastweek_count = this.getLastWeekRegistersBySex("F");
 
         this.man_lastweek_count = this.getLastWeekRegistersBySex("M");
+
+        this.cols = [
+            { field: 'registro', header: 'Número de registro' },
+            { field: 'nombre', header: 'Nombre' },
+            { field: 'edad', header: 'Edad' },
+            { field: 'telefono', header: 'Telefono' }
+        ];
+    }
+
+    confirm(nombre: string) {
+        this.confirmationService.confirm({
+            key: 'abonarDialog',
+            message: `¿Desea abonar a ${nombre}?`,
+            acceptLabel: 'Si',
+            accept: () => {
+                this.router.navigate(['/uikit/formlayout']);
+            }
+        });
+    }
+
+    showPayment(camper: Camper) {
+        this.camper = { ...camper };
+        this.camperDialog = true;
+    }
+
+    addPayment = async (camper_id: string) => {
+        try {
+            if(this.monto.length <= 0){
+                this.show_error = true;
+                return;
+            } else {
+                this.show_error = false;
+            }
+
+            const body = {
+                camper: camper_id,
+                monto: this.monto,
+                fecha_pago: new Date()
+            }
+            const response: AxiosResponse = await axios.post(this.baseUrl, body);
+
+            if(response.data.status){
+                this.camperDialog = false;
+                this.camper = {};
+                this.paymentSuccess();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    hideDialog = () => {
+        this.camperDialog = false;
+        this.show_error = false;
+    }
+
+    onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
+
+    deleteSelectedCampers() {
+        this.deleteCampersDialog = true;
+    }
+
+    deleteCamper(camper: Camper) {
+        this.deleteCamperDialog = true;
+        this.camper = { ...camper };
+    }
+
+    paymentSuccess = () => {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            text: 'Registrado Eliminado!',
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 3000
+        });
+    }
+
+    deleteSuccess = () => {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            text: 'Pago Registrado!',
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 3000
+        });
+    }
+
+    confirmDeleteSelected = async () => {
+        this.deleteCampersDialog = false;
+        const ids: String[] = [];
+        this.selectedCampers.forEach((camper: Camper) => {
+            ids.push(camper._id);
+        });
+        
+        const query = ids.join(',');
+
+        const response: boolean = await deleteCampers(query);
+
+        if(response){
+            this.deleteSuccess();
+        }
+
+        this.selectedCampers = [];
     }
 
     getRegister = (registro: String) => {
@@ -100,14 +228,13 @@ export class DashboardComponent {
 
     getLastWeekRegistersBySex = (sex: string) => {
 
-        const unaSemanaEnMS = 7 * 24 * 60 * 60 * 1000; // Una semana en milisegundos
-        const fechaHoy = new Date(); // Fecha de hoy
-        const fechaHaceUnaSemana = new Date(fechaHoy.getTime() - unaSemanaEnMS);
+        const unaSemanaAtras = new Date();
+        unaSemanaAtras.setDate(unaSemanaAtras.getDate() - 7);
 
         if (this.campers.data.length > 0) {
             const registrosUltimaSemana = this.campers.data.filter(registro => {
                 const fechaRegistro = formatMongoDate(registro.fecha_registro);
-                return fechaRegistro >= fechaHaceUnaSemana && fechaRegistro <= fechaHoy;
+                return fechaRegistro >= unaSemanaAtras;
             });
 
             const registrosUltimaSemanabySex = registrosUltimaSemana.filter(registro => registro.sexo === sex)

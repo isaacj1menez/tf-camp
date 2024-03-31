@@ -5,6 +5,7 @@ interface GetCampersResponse {
 }
 
 interface Camper {
+    "_id": String,
     "nombre": String
     "edad": Number,
     "sexo": String,
@@ -19,7 +20,7 @@ interface Camper {
     "medicamentos": [],
     "comentarios": String,
     "registro": String,
-    "fecha_registro": String
+    "fecha_registro": string
 }
 
 export {
