@@ -9,6 +9,19 @@ import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { DashboardsRoutingModule } from './dashboard-routing.module';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToolbarModule } from 'primeng/toolbar';
+import { DialogModule } from 'primeng/dialog';
+import { CrudRoutingModule } from '../pages/crud/crud-routing.module';
+import { FileUploadModule } from 'primeng/fileupload';
+import { RippleModule } from 'primeng/ripple';
+import { ToastModule } from 'primeng/toast';
+import { RatingModule } from 'primeng/rating';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DropdownModule } from 'primeng/dropdown';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @NgModule({
     imports: [
@@ -20,7 +33,20 @@ import { DashboardsRoutingModule } from './dashboard-routing.module';
         StyleClassModule,
         PanelMenuModule,
         ButtonModule,
-        DashboardsRoutingModule
+        DashboardsRoutingModule,
+        ConfirmDialogModule,
+        ToolbarModule,
+        CrudRoutingModule,
+        FileUploadModule,
+        RippleModule,
+        ToastModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        DialogModule
     ],
     declarations: [DashboardComponent]
 })

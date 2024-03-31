@@ -45,7 +45,7 @@ export class InputDemoComponent implements OnInit {
         this.tipo_sangre = this.camper.tipo_sangre;
         this.medicamentos = this.camper.medicamentos;
         this.registro = this.camper.registro;
-        this.fecha_registro = this.camper.fecha_registro;
+        this.fecha_registro = new Date(this.camper.fecha_registro).toLocaleDateString();
         this.iglesia = this.camper.iglesia;
         this.comentarios = this.camper.comentarios;
     }

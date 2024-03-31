@@ -1,3 +1,35 @@
+
+<p-dialog [(visible)]="camperDialog" [style]="{width: '450px'}" header="Abonando a:" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="name">Nombre: </label>
+            <input type="text" pInputText id="name" [value]="camper.nombre" disabled/>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="price">¿Qué cantidad desea abonar?</label>
+                <p-inputNumber [(ngModel)]="monto" id="monto" mode="currency" required currency="MXN" locale="es-MX"></p-inputNumber>
+                <small class="text-red-500" *ngIf="show_error">Ingrese una cantidad válida</small>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addPayment(camper._id)"></button>
+    </ng-template>
+</p-dialog>
+<p-dialog [(visible)]="deleteCampersDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span>¿Está seguro de eliminar los registros seleccionados?</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteCampersDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si" (click)="confirmDeleteSelected()"></button>
+    </ng-template>
+</p-dialog>
 <div class="grid">
     <div class="col-12 lg:col-6 xl:col-4">
         <div class="card mb-0">
@@ -50,6 +82,75 @@
     </div>
 
     <div class="col-12 xl:col-12">
+        <p-toolbar styleClass="mb-4">
+            <ng-template pTemplate="left">
+                <div class="my-2">
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedCampers()" [disabled]="!selectedCampers || !selectedCampers.length"></button>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="right">
+                <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+            </ng-template>
+        </p-toolbar>
+        <p-table #dt [value]="campers_table_data" [columns]="cols" responsiveLayout="scroll" [rows]="5" [globalFilterFields]="['nombre','registro']" [paginator]="true" [rowsPerPageOptions]="rowsPerPageOptions" [(selection)]="selectedCampers" [showCurrentPageReport]="true" selectionMode="multiple" [rowHover]="true" dataKey="registro">
+            <ng-template pTemplate="caption">
+                <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                    <h5 class="m-0">Registros</h5>
+                    <span class="block mt-2 md:mt-0 p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."  class="w-full sm:w-auto"/>
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="registro">Registro <p-sortIcon field="registro"></p-sortIcon></th>
+                    <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+                    <th pSortableColumn="edad">Edad <p-sortIcon field="edad"></p-sortIcon></th>
+                    <th pSortableColumn="sexo">Sexo <p-sortIcon field="sexo"></p-sortIcon></th>
+                    <th pSortableColumn="telefono">Teléfono <p-sortIcon field="telefono"></p-sortIcon></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-camper>
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="camper"></p-tableCheckbox>
+                    </td>
+                    <td style="width:14%; min-width:10rem;"><span class="p-column-title">Registro</span>
+                        TF{{this.getRegister(camper.registro)}}{{camper.registro}}
+                    </td>
+                    <td>
+                        <span style="width:14%; min-width:10rem;" class="p-column-title">Nombre</span>
+                        {{camper.nombre}}
+                    </td>
+                    <td style="width:14%; min-width:8rem;">
+                        <span class="p-column-title">Edad</span>
+                        {{camper.edad}}
+                    </td>
+                    <td style="width:14%; min-width:8rem;">
+                        <span class="p-column-title">Sexo</span>
+                        {{camper.sexo}}
+                    </td>
+                    <td style="width:14%; min-width:10rem;">
+                        <span class="p-column-title">Teléfono</span>
+                        {{camper.telefono}}
+                    </td>
+                    <td>
+                        <div class="flex">
+                            <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-primery mr-2" [routerLink]="['/uikit/input', camper.registro]"></button>
+                            <button pButton pRipple icon="pi pi-dollar" class="p-button-rounded p-button-success" (click)="showPayment(camper)"></button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- <div class="col-12 xl:col-12">
         <div class="card">
             <h5>Registros</h5>
             <p-table 
@@ -77,9 +178,6 @@
                         <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
                         <th pSortableColumn="edad">Edad <p-sortIcon field="edad"></p-sortIcon></th>
                         <th pSortableColumn="telefono">Teléfono <p-sortIcon field="telefono"></p-sortIcon></th>
-                        <th>Ver</th>
-                        <th>Abonar</th>
-                        <th>Eliminar</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-camper>
@@ -94,7 +192,7 @@
                         </td>
                         <td style="width: 15%;">
                             <button pButton pRipple type="button" icon="pi pi-dollar"
-                                class="text-green-500 p-button p-component p-button-text p-button-icon-only"></button>
+                                class="text-green-500 p-button p-component p-button-text p-button-icon-only" (click)="confirm(camper.nombre)"></button>
                         </td>
                         <td style="width: 15%;">
                             <button pButton pRipple type="button" icon="pi pi-trash"
@@ -104,5 +202,5 @@
                 </ng-template>
             </p-table>
         </div>
-    </div>
+    </div> -->
 </div>
