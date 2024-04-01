@@ -55,6 +55,8 @@ export class DashboardComponent {
     show_error: boolean = false;
 
     monto: String = '';
+
+    viewCamperDialog: boolean = false;
     
 
     constructor(private confirmationService: ConfirmationService, private router: Router) { }
@@ -93,6 +95,11 @@ export class DashboardComponent {
                 this.router.navigate(['/uikit/formlayout']);
             }
         });
+    }
+
+    showViewCamper = (camper: Camper) => {
+        this.camper = { ...camper };
+        this.viewCamperDialog = true;
     }
 
     showPayment(camper: Camper) {
@@ -159,7 +166,7 @@ export class DashboardComponent {
         Swal.fire({
             position: 'top-end',
             icon: 'success',
-            text: 'Pago Registrado!',
+            text: 'Registro Eliminado',
             showConfirmButton: false,
             timerProgressBar: true,
             timer: 3000
@@ -179,9 +186,12 @@ export class DashboardComponent {
 
         if(response){
             this.deleteSuccess();
+            this.updateData();
         }
+    }
 
-        this.selectedCampers = [];
+    updateData = () => {
+        this.ngOnInit();
     }
 
     getRegister = (registro: String) => {

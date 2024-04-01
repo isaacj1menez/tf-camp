@@ -50,7 +50,7 @@ const addPayment = async (body: {}): Promise<boolean> => {
 
 const deleteCampers = async (query: String): Promise<boolean> => {
     try {
-        const response: AxiosResponse = await axios.delete(`${baseUrl}?${query}`);
+        const response: AxiosResponse = await axios.delete(`${baseUrl}?ids=${query}`);
         if(response.data.status){
             return true;
         } else {

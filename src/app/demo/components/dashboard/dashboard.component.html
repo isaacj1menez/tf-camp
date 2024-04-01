@@ -30,6 +30,44 @@
         <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si" (click)="confirmDeleteSelected()"></button>
     </ng-template>
 </p-dialog>
+<p-dialog header="Header" [(visible)]="viewCamperDialog" [style]="{width: '50vw'}" [maximizable]="true">
+    <p-tabView orientation="left">
+        <p-tabPanel header="Datos Generales" class="line-height-3 m-0">
+            <p>Nombre: <span class="p-text-secondary">{{camper.nombre}}</span></p>
+            <p>Edad: <span class="p-text-secondary">{{camper.edad}}</span></p>
+            <p>Télefono: <span class="p-text-secondary">{{camper.telefono}}</span></p>
+            <p>Sexo: <span class="p-text-secondary">{{camper.sexo === 'M' ? 'Masculino' : 'Femenino'}}</span></p>
+            <p>Iglesia: <span class="p-text-secondary">{{camper.iglesia}}</span></p>
+            <p>Talla: <span class="p-text-secondary">{{camper.talla}}</span></p>
+        </p-tabPanel>
+        <p-tabPanel header="Datos de Contacto" class="line-height-3 m-0">
+            <p>Contacto de Emergencia: <span class="p-text-secondary">{{camper.nombre}}</span></p>
+            <p>Edad: <span class="p-text-secondary">{{camper.edad}}</span></p>
+            <p>Télefono: <span class="p-text-secondary">{{camper.telefono}}</span></p>
+            <p>Sexo: <span class="p-text-secondary">{{camper.sexo === 'M' ? 'Masculino' : 'Femenino'}}</span></p>
+            <p>Iglesia: <span class="p-text-secondary">{{camper.iglesia}}</span></p>
+            <p>Talla: <span class="p-text-secondary">{{camper.talla}}</span></p>
+        </p-tabPanel>
+        <p-tabPanel header="Datos Médicos" class="line-height-3 m-0">
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
+            deleniti atque corrupti quos dolores
+            et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui
+            officia deserunt mollitia animi, id est laborum et dolorum fuga.
+            Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est
+            eligendi optio cumque nihil impedit
+            quo minus.
+        </p-tabPanel>
+        <p-tabPanel header="Pagos" class="line-height-3 m-0">
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
+            deleniti atque corrupti quos dolores
+            et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui
+            officia deserunt mollitia animi, id est laborum et dolorum fuga.
+            Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est
+            eligendi optio cumque nihil impedit
+            quo minus.
+        </p-tabPanel>
+    </p-tabView>
+</p-dialog>
 <div class="grid">
     <div class="col-12 lg:col-6 xl:col-4">
         <div class="card mb-0">
@@ -142,7 +180,7 @@
                     </td>
                     <td>
                         <div class="flex">
-                            <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-primery mr-2" [routerLink]="['/uikit/input', camper.registro]"></button>
+                            <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-primery mr-2" (click)="showViewCamper(camper)"></button>
                             <button pButton pRipple icon="pi pi-dollar" class="p-button-rounded p-button-success" (click)="showPayment(camper)"></button>
                         </div>
                     </td>
