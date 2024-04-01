@@ -22,6 +22,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
     imports: [
@@ -46,7 +47,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
         DropdownModule,
         RadioButtonModule,
         InputNumberModule,
-        DialogModule
+        DialogModule,
+        TabViewModule
     ],
     declarations: [DashboardComponent]
 })
