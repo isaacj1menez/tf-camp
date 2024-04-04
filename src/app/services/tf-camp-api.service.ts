@@ -1,11 +1,11 @@
 import axios, { AxiosResponse } from 'axios';
 
-const baseUrl: string = 'http://localhost:2250/api/campers';
+const baseUrl: string = 'https://tf-camp-api.onrender.com/api';
 
 const addCamper = async (body: {}): Promise<boolean> => {
     try {
-        const response: AxiosResponse = await axios.post(baseUrl, body);
-        if(response.data.status){
+        const response: AxiosResponse = await axios.post(`${baseUrl}/campers`, body);
+        if (response.data.status === "success") {
             return true;
         } else {
             return false;
@@ -17,8 +17,8 @@ const addCamper = async (body: {}): Promise<boolean> => {
 }
 
 const getCampers = async () => {
-    const campers = await axios.get(baseUrl);
-    if(campers.data.status) {
+    const campers = await axios.get(`${baseUrl}/campers`);
+    if (campers.data.status === "success") {
         return campers.data;
     } else {
         return [];
@@ -26,8 +26,8 @@ const getCampers = async () => {
 }
 
 const getCamperbyRegisterNumber = async (register: string) => {
-    const camper = await axios.get(`${baseUrl}/${register}`);
-    if(camper.data.status){
+    const camper = await axios.get(`${baseUrl}/campers/${register}`);
+    if (camper.data.status === "success") {
         return camper.data.data;
     } else {
         return null;
@@ -36,8 +36,8 @@ const getCamperbyRegisterNumber = async (register: string) => {
 
 const addPayment = async (body: {}): Promise<boolean> => {
     try {
-        const response: AxiosResponse = await axios.post(baseUrl, body);
-        if(response.data.status){
+        const response: AxiosResponse = await axios.post(`${baseUrl}/payments`, body);
+        if (response.data.status === "success") {
             return true;
         } else {
             return false;
@@ -50,8 +50,8 @@ const addPayment = async (body: {}): Promise<boolean> => {
 
 const deleteCampers = async (query: String): Promise<boolean> => {
     try {
-        const response: AxiosResponse = await axios.delete(`${baseUrl}?ids=${query}`);
-        if(response.data.status){
+        const response: AxiosResponse = await axios.delete(`${baseUrl}/campers?ids=${query}`);
+        if (response.data.status === "success") {
             return true;
         } else {
             return false;
@@ -62,6 +62,20 @@ const deleteCampers = async (query: String): Promise<boolean> => {
     }
 }
 
+const getPaymentByCamperId = async (id: String): Promise<boolean> => {
+    try {
+        const payments = await axios.get(`${baseUrl}/payments/${id}`);
+        if (payments.data.status === "success") {
+            return payments.data.data;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        return false;
+    }
+}
+
+
 
 
 export {
@@ -69,5 +83,6 @@ export {
     getCampers,
     getCamperbyRegisterNumber,
     addPayment,
-    deleteCampers
+    deleteCampers,
+    getPaymentByCamperId
 }

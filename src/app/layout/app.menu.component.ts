@@ -19,12 +19,6 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'Vista General', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
                 ]
-            },
-            {
-                label: 'Administración',
-                items: [
-                    { label: 'Pagos', icon: 'pi pi-fw pi-dollar', routerLink: ['/uikit/formlayout'] }
-                ]
             }
         ];
     }

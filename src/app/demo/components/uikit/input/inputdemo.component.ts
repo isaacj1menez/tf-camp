@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Camper } from 'src/app/interfaces/camper-responses.interface';
-import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { getCamperbyRegisterNumber } from 'src/app/services/tf-camp-api.service';
-import { formatRegister } from 'src/app/utils/common';
+import { getCamperbyRegisterNumber, getPaymentByCamperId } from 'src/app/services/tf-camp-api.service';
 
 @Component({
     templateUrl: './inputdemo.component.html'
@@ -11,6 +9,7 @@ import { formatRegister } from 'src/app/utils/common';
 export class InputDemoComponent implements OnInit {
 
     camper: Camper;
+    id: String = '';
     contacto: String = '';
     nombre: String = '';
     edad: String = '';
@@ -27,18 +26,28 @@ export class InputDemoComponent implements OnInit {
     iglesia: String = '';
     comentarios: String = '';
 
-    constructor(private router: ActivatedRoute, public layoutService: LayoutService) { }
+    pieData: any;
+
+    pieOptions: any;
+
+    total_pice: number = 1950;
+
+    total_payment: number = 0;
+
+    payments: any = [];
+
+    constructor(private router: ActivatedRoute) { }
 
     async ngOnInit() {
         const registro: string = this.router.snapshot.paramMap.get('registro');
         this.camper = await getCamperbyRegisterNumber(registro);
-        this.getContacto(this.camper.contacto);
+        this.payments = await getPaymentByCamperId(this.camper._id);
+        this.id = this.camper._id;
         this.nombre = this.camper.nombre
         this.edad = this.camper.edad.toString();
         this.sexo = this.camper.sexo;
         this.telefono = this.camper.telefono;
         this.talla = this.camper.talla;
-        this.contacto = this.camper.contacto;
         this.nombre_contacto = this.camper.nombre_contacto;
         this.telefono_contacto = this.camper.telefono_contacto;
         this.alergias = this.camper.alergias;
@@ -48,11 +57,53 @@ export class InputDemoComponent implements OnInit {
         this.fecha_registro = new Date(this.camper.fecha_registro).toLocaleDateString();
         this.iglesia = this.camper.iglesia;
         this.comentarios = this.camper.comentarios;
+
+        this.getContacto(this.camper.contacto);
+
+        this.totalPayment(this.payments);
+
+        this.fillCahrt(this.total_pice, this.total_payment);
     }
 
-    
-    getRegister = (registro: String) => {
-        return formatRegister(registro);
+    totalPayment = (payments: []) => {
+        payments.forEach((pay: any) => {
+            this.total_payment += pay.monto;
+        });
+    }
+
+    fillCahrt = (total: number, partial: number) => {
+        const documentStyle = getComputedStyle(document.documentElement);
+        this.pieData = {
+            labels: ['Por pagar','Abonado'],
+            datasets: [
+                {
+                    data: [total - partial, partial],
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--gray-200'),
+                        documentStyle.getPropertyValue('--green-100'),
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--gray-200'),
+                        documentStyle.getPropertyValue('--green-100'),
+                    ]
+                }
+            ]
+        };
+
+        this.pieOptions = {
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Pagos hechos',
+                }
+            }
+        };
     }
 
     getContacto(contacto: String) {

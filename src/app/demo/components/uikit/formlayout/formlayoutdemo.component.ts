@@ -3,30 +3,58 @@ import { Component } from '@angular/core';
 @Component({
     templateUrl: './formlayoutdemo.component.html'
 })
-export class FormLayoutDemoComponent {
+export class FormLayoutDemoComponent  {
+    
+    countries: any[] = [];
 
-    selectedState: any = null;
+    filteredCountries: any[] = [];
 
-    states: any[] = [
-        {name: 'Arizona', code: 'Arizona'},
-        {name: 'California', value: 'California'},
-        {name: 'Florida', code: 'Florida'},
-        {name: 'Ohio', code: 'Ohio'},
-        {name: 'Washington', code: 'Washington'}
-    ];
+    selectedCountryAdvanced: any[] = [];
 
-    dropdownItems = [
-        { name: 'Option 1', code: 'Option 1' },
-        { name: 'Option 2', code: 'Option 2' },
-        { name: 'Option 3', code: 'Option 3' }
-    ];
+    valSlider = 50;
 
-    cities1: any[] = [];
+    valColor = '#424242';
 
-    cities2: any[] = [];
+    valRadio: string = '';
 
-    city1: any = null;
+    valCheck: string[] = [];
 
-    city2: any = null;
+    valCheck2: boolean = false;
 
+    valSwitch: boolean = false;
+
+    selectedMulti: any[] = [];
+
+    valToggle = false;
+
+    paymentOptions: any[] = [];
+
+    valSelect1: string = "";
+
+    valSelect2: string = "";
+
+    valueKnob = 20;
+
+    constructor() { }
+
+    ngOnInit() {
+        this.paymentOptions = [
+            { name: 'Option 1', value: 1 },
+            { name: 'Option 2', value: 2 },
+            { name: 'Option 3', value: 3 }
+        ];
+    }
+
+    filterCountry(event: any) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (let i = 0; i < this.countries.length; i++) {
+            const country = this.countries[i];
+            if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+                filtered.push(country);
+            }
+        }
+
+        this.filteredCountries = filtered;
+    }
 }

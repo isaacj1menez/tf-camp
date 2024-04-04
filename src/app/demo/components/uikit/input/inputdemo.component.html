@@ -1,76 +1,51 @@
-<h3>{{nombre}} <span class="text-sm">TF{{this.getRegister(registro)}}{{registro}}</span></h3>
-<div class="grid p-fluid">
+<div class="grid">
 	<div class="col-12 md:col-6">
 		<div class="card">
-			<h5>Datos Generales</h5>
-			<div class="grid formgrid">
-				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
-					<p style="font-weight: bold;">Fecha de Registro: <span style="font-weight: lighter;">{{fecha_registro}}</span></p>
-				</div>
-				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
-					<p style="font-weight: bold;">Edad: <span style="font-weight: lighter;">{{edad}}</span></p>
-				</div>
-				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
-					<p style="font-weight: bold;">Teléfono: <span style="font-weight: lighter;">{{telefono}}</span></p>
-				</div>
-				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
-					<p style="font-weight: bold;">Sexo: <span style="font-weight: lighter;">{{sexo === 'F' ? 'Femenino'
-							: 'Masculino'}}</span></p>
-				</div>
-				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
-					<p style="font-weight: bold;">Iglesia: <span style="font-weight: lighter;">{{iglesia}}</span></p>
-				</div>
-				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
-					<p style="font-weight: bold;">Talla: <span style="font-weight: lighter;">{{talla}}</span></p>
-				</div>
-			</div>
+			<h5>{{nombre}}</h5>
+			<p-accordion>
+				<p-accordionTab header="Datos Generales" [selected]="true" class="line-height-3 m-0">
+					<p class="font-bold">Número de Registro: <span class="font-light p-text-secondary">{{registro}}</span></p>				
+					<p class="font-bold">Fecha de Registro: <span class="font-light p-text-secondary">{{fecha_registro | date : 'dd/MM hh:mm a'}}</span></p>				
+					<p class="font-bold">Edad: <span class="font-light p-text-secondary">{{edad}}</span></p>
+					<p class="font-bold">Télefono: <span class="font-light p-text-secondary">{{telefono}}</span></p>
+					<p class="font-bold">Sexo: <span class="font-light p-text-secondary">{{sexo === 'M' ? 'Masculino' : 'Femenino'}}</span></p>
+					<p class="font-bold">Iglesia: <span class="font-light p-text-secondary">{{iglesia}}</span></p>
+					<p class="font-bold">Talla: <span class="font-light p-text-secondary">{{talla}}</span></p>
+				</p-accordionTab>
+				<p-accordionTab header="Contacto de Emergencia" [selected]="true" class="line-height-3 m-0">
+					<p class="font-bold">Contacto de Emergencia: <span class="font-light p-text-secondary">{{contacto}}</span></p>
+					<p class="font-bold">Nombre de contacto: <span class="font-light p-text-secondary">{{nombre_contacto}}</span></p>
+					<p class="font-bold">Télefono: <span class="font-light p-text-secondary">{{telefono_contacto}}</span></p>
+				</p-accordionTab>
+				<p-accordionTab header="Datos médicos" [selected]="true" class="line-height-3 m-0">
+					<p class="font-bold">Tipo de Sangre: <span class="font-light p-text-secondary">{{tipo_sangre}}</span></p>
+					<p class="font-bold">Alergias: </p> <p-chip class="ml-1" *ngFor="let alergia of alergias"> {{alergia}} </p-chip>
+					<p class="mt-3 font-bold">Medicamentos: </p> <p-chip class="ml-1" *ngFor="let medicamento of medicamentos"> {{medicamento}} </p-chip>
+				</p-accordionTab>
+			</p-accordion>
 		</div>
 	</div>
 	<div class="col-12 md:col-6">
 		<div class="card">
-			<h5>Contacto de Emergencia</h5>
-			<div class="grid formgrid">
-				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
-					<p style="font-weight: bold;">Parentesco: <span style="font-weight: initial;">{{contacto}}</span>
-					</p>
-				</div>
-				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
-					<p style="font-weight: bold;">Nombre: <span style="font-weight: lighter;">{{nombre_contacto}}</span>
-					</p>
-				</div>
-				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
-					<p style="font-weight: bold;">Teléfono: <span style="font-weight: lighter;">{{telefono_contacto
-							}}</span></p>
-				</div>
-			</div>
+			<h5>Pagos</h5>
+			<p-table [value]="payments" selectionMode="single" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+				<ng-template pTemplate="header">
+					<tr>
+						<th style="min-width:12rem" pSortableColumn="fecha">Fecha<p-sortIcon field="fecha"></p-sortIcon></th>
+						<th style="min-width:8rem" pSortableColumn="monto">Monto <p-sortIcon field="monto"></p-sortIcon></th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-rowData let-payment>
+					<tr [pSelectableRow]="rowData">
+						<td>{{payment.fecha_pago | date : 'dd/MM hh:mm a'}}</td>
+						<td>{{payment.monto | currency:'MXN'}}</td>
+					</tr>
+				</ng-template>
+			</p-table>
 		</div>
-	</div>
-	<div class="col-12 md:col-6">
-		<div class="card">
-			<h5>Datos Médicos</h5>
-			<div class="grid formgrid">
-				<div class="col-12 mb-2 lg:col-12 lg:mb-0s">
-					<p style="font-weight: bold;">Tipo de Sangre: <span
-							style="font-weight: initial;">{{tipo_sangre}}</span></p>
-				</div>
-				<div class="col-12 mb-2 lg:col-12 lg:mb-0s">
-					<p style="font-weight: bold;">Alergias:</p>
-					<p-chips class="mt-1" [ngModel]="alergias"></p-chips>
-				</div>
-				<div class="col-12 mb-2 lg:col-6 lg:mb-0s">
-					<p style="font-weight: bold;">Medicamentos:</p>
-					<p-chips class="mt-1" [ngModel]="medicamentos"></p-chips>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-12 md:col-6">
-		<div class="card">
-			<h5>Comentarios Adicionales</h5>
-			<div class="grid formgrid">
-				<div class="col-12 mb-2 lg:col-12 lg:mb-0s">
-					<p>{{comentarios}}</p>
-				</div>
+		<div class="card flex flex-column align-items-center">
+			<div>
+				<p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
 			</div>
 		</div>
 	</div>

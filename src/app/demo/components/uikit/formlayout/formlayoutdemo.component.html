@@ -1,107 +1,178 @@
-<div class="grid">
+<div class="grid p-fluid">
+
 	<div class="col-12 md:col-6">
-		<div class="card p-fluid">
-			<h5>Vertical</h5>
-			<div class="field">
-				<label htmlFor="name1">Name</label>
-				<input pInputText id="name1" type="text" />
-			</div>
-			<div class="field">
-				<label htmlFor="email1">Email</label>
-				<input pInputText id="email1" type="text" />
-			</div>
-			<div class="field">
-				<label htmlFor="age1">Age</label>
-				<input pInputText id="age1" type="text" />
+		<div class="card">
+			<h5>InputGroup</h5>
+			<div class="grid">
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>
+                        <p-inputGroupAddon>
+                            <i class="pi pi-user"></i>
+                        </p-inputGroupAddon>
+                        <input pInputText type="text" placeholder="Username" />
+                    </p-inputGroup>
+                </div>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup class="w-full">
+                        <p-inputGroupAddon>
+                            <i class="pi pi-tags" style="line-height: 1.25"></i>
+                        </p-inputGroupAddon>
+
+                        <p-inputGroupAddon>
+                            <i class="pi pi-shopping-cart" style="line-height: 1.25"></i>
+                        </p-inputGroupAddon>
+
+                        <input type="text" pInputText placeholder="Price" />
+                        <p-inputGroupAddon>$</p-inputGroupAddon>
+                        <p-inputGroupAddon>.00</p-inputGroupAddon>
+                    </p-inputGroup>
+                </div>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>
+                        <button type="button" pButton label="Search"></button>
+                        <input type="text" pInputText placeholder="Keyword" />
+                    </p-inputGroup>
+                </div>
+				<div class="col-12 md:col-6">
+                    <p-inputGroup>
+                        <p-inputGroupAddon><p-checkbox [(ngModel)]="valCheck2"
+                                [binary]="true"></p-checkbox></p-inputGroupAddon>
+                        <input type="text" pInputText placeholder="Username" />
+                    </p-inputGroup>
+                </div>
 			</div>
 		</div>
-		
-		<div class="card p-fluid">
-			<h5>Vertical Grid</h5>
-			<div class="p-formgrid grid">
-				<div class="field col">
-					<label htmlFor="name2">Name</label>
-					<input pInputText id="name2" type="text" />
+	</div>
+
+	<div class="col-12 md:col-6">
+		<div class="card">
+			<h5>Datos Generales</h5>
+			<div class="grid formgrid">
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0">
+					<span class="p-input-icon-left">
+						<i class="pi pi-user"></i>
+						<input type="text" pInputText placeholder="Nombre Completo"/>
+					</span>
 				</div>
-				<div class="field col">
-					<label htmlFor="email2">Email</label>
-					<input pInputText id="email2" type="text" />
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0">
+					<span class="p-input-icon-right">
+						<input type="number" pInputText placeholder="Edad"/>
+						<i class="pi pi-calendar"></i>
+					</span>
+				</div>
+			</div>
+
+			<div class="grid formgrid">
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0">
+					<span class="p-input-icon-left">
+						<i class="pi pi-user"></i>
+						<input type="text" pInputText placeholder="Nombre Completo"/>
+					</span>
+				</div>
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0">
+					<span class="p-input-icon-right">
+						<input type="number" pInputText placeholder="Edad"/>
+						<i class="pi pi-calendar"></i>
+					</span>
+				</div>
+			</div>
+
+			<h6>Sexo</h6>
+			<div class="grid formgrid">
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="city" value="M" [(ngModel)]="valRadio" id="city1"></p-radioButton>
+						<label for="masculino">Masculino</label>
+					</div>
+				</div>
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="city" value="F" [(ngModel)]="valRadio"
+									   id="city2"></p-radioButton>
+						<label for="femenino">Femenino</label>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<div class="col-12 md:col-6">
-		<div class="card p-fluid">
-			<h5>Horizontal</h5>
-			<div class="field grid">
-				<label htmlFor="name3" class="col-12 mb-2 md:col-2 md:mb-0">Name</label>
-				<div class="col-12 md:col-10">
-					<input pInputText id="name3" type="text" />
+		<div class="card">
+			<h5>Contacto de Emergencia</h5>
+			<div class="grid formgrid">
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="city" value="Chicago" [(ngModel)]="valRadio" id="city1"></p-radioButton>
+						<label for="city1">Chicago</label>
+					</div>
+				</div>
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="city" value="Los Angeles" [(ngModel)]="valRadio"
+									   id="city2"></p-radioButton>
+						<label for="city2">Los Angeles</label>
+					</div>
+				</div>
+				<div class="col-12 md:col-4">
+					<div class="field-radiobutton">
+						<p-radioButton name="city" value="New York" [(ngModel)]="valRadio" id="city3"></p-radioButton>
+						<label for="city3">New York</label>
+					</div>
 				</div>
 			</div>
-			<div class="field grid">
-				<label htmlFor="email3" class="col-12 mb-2 md:col-2 md:mb-0">Email</label>
-				<div class="col-12 md:col-10">
-					<input pInputText id="email3" type="text" />
+
+			<h5>Checkbox</h5>
+			<div class="grid formgrid">
+				<div class="col-12 md:col-4">
+					<div class="field-checkbox">
+						<p-checkbox name="group1" value="New York" [(ngModel)]="valCheck" id="ny"></p-checkbox>
+						<label for="ny">New York</label>
+					</div>
+				</div>
+				<div class="col-12 md:col-4">
+					<div class="field-checkbox">
+						<p-checkbox name="group1" value="San Francisco" [(ngModel)]="valCheck" id="sf"></p-checkbox>
+						<label for="sf">San Francisco</label>
+					</div>
+				</div>
+				<div class="col-12 md:col-4">
+					<div class="field-checkbox">
+						<p-checkbox name="group1" value="Los Angeles" [(ngModel)]="valCheck" id="la"></p-checkbox>
+						<label for="la">Los Angeles</label>
+					</div>
 				</div>
 			</div>
+
+			<h5>Input Switch</h5>
+			<p-inputSwitch [(ngModel)]="valSwitch"></p-inputSwitch>
 		</div>
 
 		<div class="card">
-			<h5>Inline</h5>
-			<div class="formgroup-inline">
-				<div class="field">
-					<label htmlFor="firstname1" class="p-sr-only">Firstname</label>
-					<input pInputText id="firstname1" type="text" placeholder="Firstname" />
-				</div>
-				<div class="field">
-					<label htmlFor="lastname1" class="p-sr-only">Lastname</label>
-					<input pInputText id="lastname1" type="text" placeholder="Lastname" />
-				</div>
-				<button pButton label="Submit"></button>
-			</div>
+			<h5>Listbox</h5>
+
+			<h5>Dropdown</h5>
+			<p-dropdown placeholder="Select a City" [showClear]="true"></p-dropdown>
+
+			<h5>Multiselect</h5>
+			<p-multiSelect [options]="countries" [(ngModel)]="selectedMulti" placeholder="Select a Country" optionLabel="name" class="multiselect-custom" display="chip">
+				<ng-template let-country pTemplate="item">
+					<div class="flex align-items-center">
+						<img src="assets/demo/images/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" style="width:21px"/>
+						<span class="ml-2">{{country.name}}</span>
+					</div>
+				</ng-template>
+			</p-multiSelect>
 		</div>
 
 		<div class="card">
-			<h5>Help Text</h5>
-			<div class="field p-fluid">
-				<label htmlFor="username">Username</label>
-				<input pInputText id="username" type="text" />
-				<small>Enter your username to reset your password.</small>
-			</div>
-		</div>
-	</div>
+			<h5>ToggleButton</h5>
+			<p-toggleButton [(ngModel)]="valToggle" onLabel="Yes" offLabel="No" [style]="{'width': '10em'}"></p-toggleButton>
 
-	<div class="col-12">
-		<div class="card">
-			<h5>Advanced</h5>
-			<div class="p-fluid p-formgrid grid">
-				<div class="field col-12 md:col-6">
-					<label htmlFor="firstname2">Firstname</label>
-					<input pInputText id="firstname2" type="text" />
-				</div>
-				<div class="field col-12 md:col-6">
-					<label htmlFor="lastname2">Lastname</label>
-					<input pInputText id="lastname2" type="text" />
-				</div>
-				<div class="field col-12">
-					<label htmlFor="address">Address</label>
-					<input pInputTextarea id="address" rows="4" />
-				</div>
-				<div class="field col-12 md:col-6">
-					<label htmlFor="city">City</label>
-					<input pInputText id="city" type="text" />
-				</div>
-				<div class="field col-12 md:col-3">
-					<label htmlFor="state">State</label>
-					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedState"></p-dropdown>
-				</div>
-				<div class="field col-12 md:col-3">
-					<label htmlFor="zip">Zip</label>
-					<input pInputText id="zip" type="text" />
-				</div>
-			</div>
+			<h5>SelectOneButton</h5>
+			<p-selectButton [options]="paymentOptions" [(ngModel)]="valSelect1" optionLabel="name"></p-selectButton>
+
+			<h5>SelectManyButton</h5>
+			<p-selectButton [options]="paymentOptions" [(ngModel)]="valSelect2" [multiple]="true" optionLabel="name"></p-selectButton>
 		</div>
 	</div>
 </div>
