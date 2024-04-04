@@ -3,14 +3,16 @@ const formatMongoDate = (fecha_input: string): Date | null => {
     return newDate;
 }
 
-const formatRegister = (register: String) => {
-    if(register.length === 1) return '00';
-    if(register.length === 2) return '0';
-
-    return ''
+const getContacto = (contacto: string) => {
+    switch(contacto) {
+        case 'P': return 'Papá';
+        case 'M': return 'Mamá';
+        case 'CG': return 'Contacto General';
+        default: return '';
+    }
 }
 
 export {
     formatMongoDate,
-    formatRegister
+    getContacto
 }

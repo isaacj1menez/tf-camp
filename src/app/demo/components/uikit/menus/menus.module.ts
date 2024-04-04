@@ -36,9 +36,9 @@ import { InputTextModule } from 'primeng/inputtext';
 				path: '', component: MenusComponent, children: [
 					{ path: '', redirectTo: 'personal', pathMatch: 'full' },
 					{ path: 'personal', component: PersonalComponent },
-					{ path: 'confirmation', component: ConfirmationComponent },
-					{ path: 'seat', component: SeatComponent },
-					{ path: 'payment', component: PaymentComponent }
+					{ path: 'contacto', component: ConfirmationComponent },
+					{ path: 'medicos', component: SeatComponent },
+					{ path: 'finalizar', component: PaymentComponent }
 				]
 			}
 		])

@@ -13,12 +13,22 @@ import { CascadeSelectModule } from "primeng/cascadeselect";
 import { MultiSelectModule } from "primeng/multiselect";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { InputTextModule } from "primeng/inputtext";
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { SliderModule } from 'primeng/slider';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { RatingModule } from 'primeng/rating';
+import { ChipModule } from 'primeng/chip';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ButtonModule } from 'primeng/button';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @NgModule({
 	imports: [
 		CommonModule,
 		FormsModule,
-		FormLayoutDemoRoutingModule,
 		AutoCompleteModule,
 		CalendarModule,
 		ChipsModule,
@@ -27,8 +37,20 @@ import { InputTextModule } from "primeng/inputtext";
 		InputNumberModule,
 		CascadeSelectModule,
 		MultiSelectModule,
+		ToggleButtonModule,
+		SliderModule,
 		InputTextareaModule,
-		InputTextModule
+		RadioButtonModule,
+		InputTextModule,
+		RatingModule,
+		ChipModule,
+		InputSwitchModule,
+		SelectButtonModule,
+		CheckboxModule,
+		ButtonModule,
+		InputGroupModule,
+		InputGroupAddonModule,
+		FormLayoutDemoRoutingModule
 	],
 	declarations: [FormLayoutDemoComponent]
 })

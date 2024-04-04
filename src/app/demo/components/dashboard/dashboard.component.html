@@ -16,8 +16,8 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addPayment(camper._id)"></button>
+        <button pButton pRipple label="No" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Si" icon="pi pi-check" class="p-button-text" (click)="addPayment(camper._id)"></button>
     </ng-template>
 </p-dialog>
 <p-dialog [(visible)]="deleteCampersDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
@@ -123,12 +123,12 @@
         <p-toolbar styleClass="mb-4">
             <ng-template pTemplate="left">
                 <div class="my-2">
-                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedCampers()" [disabled]="!selectedCampers || !selectedCampers.length"></button>
+                    <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedCampers()" [disabled]="!selectedCampers || !selectedCampers.length"></button>
                 </div>
             </ng-template>
 
             <ng-template pTemplate="right">
-                <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+                <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
             </ng-template>
         </p-toolbar>
         <p-table #dt [value]="campers_table_data" [columns]="cols" responsiveLayout="scroll" [rows]="5" [globalFilterFields]="['nombre','registro']" [paginator]="true" [rowsPerPageOptions]="rowsPerPageOptions" [(selection)]="selectedCampers" [showCurrentPageReport]="true" selectionMode="multiple" [rowHover]="true" dataKey="registro">
@@ -160,7 +160,7 @@
                         <p-tableCheckbox [value]="camper"></p-tableCheckbox>
                     </td>
                     <td style="width:14%; min-width:10rem;"><span class="p-column-title">Registro</span>
-                        TF{{this.getRegister(camper.registro)}}{{camper.registro}}
+                        {{camper.registro}}
                     </td>
                     <td>
                         <span style="width:14%; min-width:10rem;" class="p-column-title">Nombre</span>
@@ -188,57 +188,4 @@
             </ng-template>
         </p-table>
     </div>
-    <!-- <div class="col-12 xl:col-12">
-        <div class="card">
-            <h5>Registros</h5>
-            <p-table 
-                #campersTable
-                [value]="campers_table_data" 
-                [paginator]="true" 
-                [rows]="5" 
-                responsiveLayout="scroll" 
-                dataKey="registro"
-                [rowsPerPageOptions]="[5, 10, 25, 50]"
-                [loading]="loading"
-                [globalFilterFields]="['nombre', 'camper.nombre']">
-                <ng-template pTemplate="caption">
-                    <div class="flex">
-                        <button pButton label="Borrar" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(campersTable)"></button>
-                        <span class="p-input-icon-left ml-auto">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="campersTable.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
-                        </span>
-                    </div>
-                </ng-template>
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th pSortableColumn="registro">Registro <p-sortIcon field="registro"></p-sortIcon></th>
-                        <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
-                        <th pSortableColumn="edad">Edad <p-sortIcon field="edad"></p-sortIcon></th>
-                        <th pSortableColumn="telefono">Teléfono <p-sortIcon field="telefono"></p-sortIcon></th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-camper>
-                    <tr>
-                        <td style="width: 35%; min-width: 7rem;">TF{{this.getRegister(camper.registro)}}{{camper.registro}}</td>
-                        <td style="width: 35%; min-width: 7rem;">{{camper.nombre}}</td>
-                        <td style="width: 35%; min-width: 8rem;">{{camper.edad}}</td>
-                        <td style="width: 35%; min-width: 8rem;">{{camper.telefono}}</td>
-                        <td style="width: 15%;">
-                            <button pButton pRipple type="button" icon="pi pi-eye"
-                                class="text-blue-500 p-button p-component p-button-text p-button-icon-only" [routerLink]="['/uikit/input', camper.registro]"></button>
-                        </td>
-                        <td style="width: 15%;">
-                            <button pButton pRipple type="button" icon="pi pi-dollar"
-                                class="text-green-500 p-button p-component p-button-text p-button-icon-only" (click)="confirm(camper.nombre)"></button>
-                        </td>
-                        <td style="width: 15%;">
-                            <button pButton pRipple type="button" icon="pi pi-trash"
-                                class="text-red-500 p-button p-component p-button-text p-button-icon-only"></button>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
-    </div> -->
 </div>

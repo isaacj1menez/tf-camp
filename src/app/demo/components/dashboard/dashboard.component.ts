@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { deleteCampers, getCampers } from 'src/app/services/tf-camp-api.service';
-import { formatMongoDate, formatRegister } from 'src/app/utils/common';
+import { formatMongoDate } from 'src/app/utils/common';
 import { Camper, GetCampersResponse } from 'src/app/interfaces/camper-responses.interface';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2'
 })
 export class DashboardComponent {
 
-    baseUrl: string = 'http://localhost:2250/api/payments';
+    baseUrl: string = 'https://tf-camp-api.onrender.com/api/payments';
 
     campers: GetCampersResponse;
     
@@ -54,7 +54,7 @@ export class DashboardComponent {
 
     show_error: boolean = false;
 
-    monto: String = '';
+    monto: number = 0;
 
     viewCamperDialog: boolean = false;
     
@@ -86,20 +86,9 @@ export class DashboardComponent {
         ];
     }
 
-    confirm(nombre: string) {
-        this.confirmationService.confirm({
-            key: 'abonarDialog',
-            message: `¿Desea abonar a ${nombre}?`,
-            acceptLabel: 'Si',
-            accept: () => {
-                this.router.navigate(['/uikit/formlayout']);
-            }
-        });
-    }
-
     showViewCamper = (camper: Camper) => {
         this.camper = { ...camper };
-        this.viewCamperDialog = true;
+        this.router.navigate(['uikit/input', camper.registro])
     }
 
     showPayment(camper: Camper) {
@@ -109,7 +98,8 @@ export class DashboardComponent {
 
     addPayment = async (camper_id: string) => {
         try {
-            if(this.monto.length <= 0){
+
+            if(this.monto <= 0){
                 this.show_error = true;
                 return;
             } else {
@@ -155,7 +145,7 @@ export class DashboardComponent {
         Swal.fire({
             position: 'top-end',
             icon: 'success',
-            text: 'Registrado Eliminado!',
+            text: 'Pago Registrado!',
             showConfirmButton: false,
             timerProgressBar: true,
             timer: 3000
@@ -187,15 +177,12 @@ export class DashboardComponent {
         if(response){
             this.deleteSuccess();
             this.updateData();
+            this.selectedCampers = []
         }
     }
 
     updateData = () => {
         this.ngOnInit();
-    }
-
-    getRegister = (registro: String) => {
-        return formatRegister(registro);
     }
 
     getTotalRegisters = () => {
