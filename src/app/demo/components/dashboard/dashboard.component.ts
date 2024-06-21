@@ -88,6 +88,7 @@ export class DashboardComponent {
             { field: 'contacto', header: 'Contacto' },
             { field: 'nombre_contacto', header: 'Nombre del Contacto' },
             { field: 'telefono_contacto', header: 'Teléfono del Contacto' },
+            { field: 'talla', header: 'Talla' },
             { field: 'alergias', header: 'Alergias' },
             { field: 'tipo_sangre', header: 'Tipo de Sangre' },
             { field: 'medicamentos', header: 'Medicamentos' },
