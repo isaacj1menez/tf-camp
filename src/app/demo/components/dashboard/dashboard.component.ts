@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { deleteCampers, getCampers } from 'src/app/services/tf-camp-api.service';
+import { deleteCampers, getCamperbyRegisterNumber, getCampers, getPayments } from 'src/app/services/tf-camp-api.service';
 import { formatMongoDate } from 'src/app/utils/common';
 import { Camper, GetCampersResponse } from 'src/app/interfaces/camper-responses.interface';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -7,6 +7,11 @@ import { Router } from '@angular/router';
 import { Table } from 'primeng/table';
 import axios, { AxiosResponse } from 'axios';
 import Swal from 'sweetalert2'
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -14,10 +19,12 @@ import Swal from 'sweetalert2'
 })
 export class DashboardComponent {
 
-    baseUrl: string = 'https://tf-camp-api.onrender.com/api/payments';
+    payments = [];
+
+    baseUrl: string = 'http://localhost:2250/api/payments';
 
     campers: GetCampersResponse;
-    
+
     camper: any = {};
 
     campers_table_data: any[];
@@ -31,7 +38,7 @@ export class DashboardComponent {
     woman_lastweek_count: Number = 0;
 
     man_count: Number = 0;
-    
+
     man_lastweek_count: Number = 0;
 
     loading: boolean = false;
@@ -57,7 +64,6 @@ export class DashboardComponent {
     monto: number = 0;
 
     viewCamperDialog: boolean = false;
-    
 
     constructor(private confirmationService: ConfirmationService, private router: Router) { }
 
@@ -109,7 +115,7 @@ export class DashboardComponent {
     addPayment = async (camper_id: string) => {
         try {
 
-            if(this.monto <= 0){
+            if (this.monto <= 0) {
                 this.show_error = true;
                 return;
             } else {
@@ -123,7 +129,7 @@ export class DashboardComponent {
             }
             const response: AxiosResponse = await axios.post(this.baseUrl, body);
 
-            if(response.data.status){
+            if (response.data.status) {
                 this.camperDialog = false;
                 this.camper = {};
                 this.paymentSuccess();
@@ -149,6 +155,59 @@ export class DashboardComponent {
     deleteCamper(camper: Camper) {
         this.deleteCamperDialog = true;
         this.camper = { ...camper };
+    }
+
+    async exportPayments() {
+        // Procesar datos para la primera hoja
+        const result = await getPayments();
+        this.payments = result.data;
+        const resumen = this.payments.reduce((acc, curr) => {
+            const camper = acc.find(c => c.Nombre === curr.camper.nombre);
+            if (camper) {
+                camper.NumeroPagos++;
+                camper.TotalAbonado += curr.monto;
+                camper.Restante = Math.max(0, 1950 - camper.TotalAbonado);
+            } else {
+                acc.push({
+                    Nombre: curr.camper.nombre,
+                    NumeroPagos: 1,
+                    TotalAbonado: curr.monto,
+                    Restante: Math.max(0, 1950 - curr.monto)
+                });
+            }
+            return acc;
+        }, []);
+
+        // Procesar datos para la segunda hoja
+        const detalle = this.payments.map(item => ({
+            Nombre: item.camper.nombre,
+            FechaPago: new Date(item.fecha_pago).toLocaleDateString(),
+            Monto: item.monto
+        }));
+
+        // Crear hojas de trabajo
+        const resumenSheet = XLSX.utils.json_to_sheet(resumen);
+        const detalleSheet = XLSX.utils.json_to_sheet(detalle);
+
+        // Crear el libro de trabajo y agregar las hojas
+        const workbook = {
+            Sheets: {
+                'Resumen': resumenSheet,
+                'Detalle': detalleSheet
+            },
+            SheetNames: ['Resumen', 'Detalle']
+        };
+
+        // Generar el archivo Excel
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+        // Guardar el archivo
+        this.saveAsExcelFile(excelBuffer, 'Pagos_Camperos');
+    }
+
+    saveAsExcelFile(buffer: any, fileName: string): void {
+        const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+        saveAs(data, fileName + EXCEL_EXTENSION);
     }
 
     paymentSuccess = () => {
@@ -179,12 +238,12 @@ export class DashboardComponent {
         this.selectedCampers.forEach((camper: Camper) => {
             ids.push(camper._id);
         });
-        
+
         const query = ids.join(',');
 
         const response: boolean = await deleteCampers(query);
 
-        if(response){
+        if (response) {
             this.deleteSuccess();
             this.updateData();
             this.selectedCampers = []

@@ -25,6 +25,15 @@ const getCampers = async () => {
     }
 }
 
+const getPayments = async () => {
+    const payments = await axios.get(`${baseUrl}/payments`);
+    if (payments.data.status === "success") {
+        return payments.data;
+    } else {
+        return [];
+    }
+}
+
 const getCamperbyRegisterNumber = async (register: string) => {
     const camper = await axios.get(`${baseUrl}/campers/${register}`);
     if (camper.data.status === "success") {
@@ -75,14 +84,12 @@ const getPaymentByCamperId = async (id: String): Promise<boolean> => {
     }
 }
 
-
-
-
 export {
     addCamper,
     getCampers,
     getCamperbyRegisterNumber,
     addPayment,
     deleteCampers,
-    getPaymentByCamperId
+    getPaymentByCamperId,
+    getPayments
 }
