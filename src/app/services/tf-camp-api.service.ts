@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-const baseUrl: string = 'http://localhost:2250/api';
+const baseUrl: string = 'https://tf-camp-api.onrender.com/api';
 
 const addCamper = async (body: {}): Promise<boolean> => {
     try {
