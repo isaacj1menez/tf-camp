@@ -72,6 +72,7 @@ export class InputDemoComponent implements OnInit {
     }
 
     fillCahrt = (total: number, partial: number) => {
+        if(partial > 1950) partial = 1950;
         const documentStyle = getComputedStyle(document.documentElement);
         this.pieData = {
             labels: ['Por pagar','Abonado'],

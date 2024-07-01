@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-const baseUrl: string = 'https://tf-camp-api.onrender.com/api';
+const baseUrl: string = 'http://localhost:2250/api';
 
 const addCamper = async (body: {}): Promise<boolean> => {
     try {
@@ -20,6 +20,15 @@ const getCampers = async () => {
     const campers = await axios.get(`${baseUrl}/campers`);
     if (campers.data.status === "success") {
         return campers.data;
+    } else {
+        return [];
+    }
+}
+
+const getPayments = async () => {
+    const payments = await axios.get(`${baseUrl}/payments`);
+    if (payments.data.status === "success") {
+        return payments.data;
     } else {
         return [];
     }
@@ -75,14 +84,12 @@ const getPaymentByCamperId = async (id: String): Promise<boolean> => {
     }
 }
 
-
-
-
 export {
     addCamper,
     getCampers,
     getCamperbyRegisterNumber,
     addPayment,
     deleteCampers,
-    getPaymentByCamperId
+    getPaymentByCamperId,
+    getPayments
 }
