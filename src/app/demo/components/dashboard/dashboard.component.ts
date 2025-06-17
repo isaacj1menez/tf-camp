@@ -21,7 +21,7 @@ export class DashboardComponent {
 
     payments = [];
 
-    baseUrl: string = 'http://localhost:2250/api/payments';
+    baseUrl: string = 'https://tf-camp-api.onrender.com/api/payments';
 
     campers: GetCampersResponse;
 
